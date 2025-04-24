@@ -39,8 +39,9 @@ module EF_PSRAM_CTRL_wb (
     output  wire [3:0]      douten
 );
 
-    localparam  ST_IDLE = 1'b0,
-                ST_WAIT = 1'b1;
+    localparam  ST_IDLE = 2'b00,
+                ST_WAIT = 2'b01,
+                ST_QPIEN = 2'b10;
 
     wire        mr_sck;
     wire        mr_ce_n;
@@ -68,16 +69,27 @@ module EF_PSRAM_CTRL_wb (
     wire        wb_re           =   ~we_i & wb_valid;
     //wire[3:0]   wb_byte_sel     =   sel_i & {4{wb_we}};
 
+    // QPI Mode Signals
+    wire qpi_en, qpi_en_done, qpi_sck, qpi_ce_n;
+    wire [3:0] qpi_din, qpi_dout;
+    wire qpi_doe;
+    wire qpi_en = state == ST_QPIEN;
+
     // The FSM
-    reg         state, nstate;
+    reg     [1:0]    state, nstate;
     always @ (posedge clk_i or posedge rst_i)
         if(rst_i)
-            state <= ST_IDLE;
+            state <= ST_QPIEN;
         else
             state <= nstate;
 
     always @* begin
         case(state)
+            ST_QPIEN :
+                if(qpi_en_done) 
+                    nstate = ST_IDLE;
+                else
+                    nstate = ST_QPIEN;
             ST_IDLE :
                 if(wb_valid)
                     nstate = ST_WAIT;
@@ -89,6 +101,8 @@ module EF_PSRAM_CTRL_wb (
                     nstate = ST_IDLE;
                 else
                     nstate = ST_WAIT;
+            default :
+                nstate = ST_QPIEN;
         endcase
     end
 
@@ -161,12 +175,25 @@ module EF_PSRAM_CTRL_wb (
         .douten(mw_doe)
     );
 
-    assign sck  = wb_we ? mw_sck  : mr_sck;
-    assign ce_n = wb_we ? mw_ce_n : mr_ce_n;
-    assign dout = wb_we ? mw_dout : mr_dout;
-    assign douten  = wb_we ? {4{mw_doe}}  : {4{mr_doe}};
+    PSRAM_QPI QPIEN (
+        .clk(clk_i),
+        .rst_n(~rst_i),
+        .en(qpi_en),
+        .done(qpi_en_done),
+        .sck(qpi_sck),
+        .ce_n(qpi_ce_n),
+        .din(qpi_din),
+        .dout(qpi_dout),
+        .douten(qpi_doe)
+    );
+
+    assign sck  = (state==ST_QPIEN) ? qpi_sck : wb_we ? mw_sck  : mr_sck;
+    assign ce_n = (state==ST_QPIEN) ? qpi_ce_n : wb_we ? mw_ce_n : mr_ce_n;
+    assign dout = (state==ST_QPIEN) ? qpi_dout : wb_we ? mw_dout : mr_dout;
+    assign douten  = (state==ST_QPIEN) ? {4{qpi_doe}} : wb_we ? {4{mw_doe}}  : {4{mr_doe}};
 
     assign mw_din = din;
     assign mr_din = din;
+    assign qpi_din = din;
     assign ack_o = wb_we ? mw_done :mr_done ;
 endmodule
