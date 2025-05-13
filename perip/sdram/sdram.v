@@ -11,7 +11,7 @@ module sdram(
   inout [15:0] dq
 );
 
-  wire mtrace = 1'b0;
+  wire mtrace = 1'b1;
 
   //clock generation
   /* verilator lint_off MULTIDRIVEN */
