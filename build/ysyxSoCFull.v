@@ -2032,8 +2032,8 @@ module APBSDRAM(	// home/lty/ysyx/ysyx-workbench/ysyxSoC/src/device/SDRAM.scala:
   output [31:0] auto_in_prdata,	// home/lty/ysyx/ysyx-workbench/ysyxSoC/rocket-chip/dependencies/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:100:25
   output        sdram_bundle_clk,	// home/lty/ysyx/ysyx-workbench/ysyxSoC/src/device/SDRAM.scala:89:26
                 sdram_bundle_cke,	// home/lty/ysyx/ysyx-workbench/ysyxSoC/src/device/SDRAM.scala:89:26
-                sdram_bundle_cs,	// home/lty/ysyx/ysyx-workbench/ysyxSoC/src/device/SDRAM.scala:89:26
-                sdram_bundle_ras,	// home/lty/ysyx/ysyx-workbench/ysyxSoC/src/device/SDRAM.scala:89:26
+  output [1:0]  sdram_bundle_cs,	// home/lty/ysyx/ysyx-workbench/ysyxSoC/src/device/SDRAM.scala:89:26
+  output        sdram_bundle_ras,	// home/lty/ysyx/ysyx-workbench/ysyxSoC/src/device/SDRAM.scala:89:26
                 sdram_bundle_cas,	// home/lty/ysyx/ysyx-workbench/ysyxSoC/src/device/SDRAM.scala:89:26
                 sdram_bundle_we,	// home/lty/ysyx/ysyx-workbench/ysyxSoC/src/device/SDRAM.scala:89:26
   output [12:0] sdram_bundle_a,	// home/lty/ysyx/ysyx-workbench/ysyxSoC/src/device/SDRAM.scala:89:26
@@ -3555,8 +3555,8 @@ module ysyxSoCASIC(	// home/lty/ysyx/ysyx-workbench/ysyxSoC/src/SoC.scala:59:9
   inout  [3:0]  psram_dio,	// home/lty/ysyx/ysyx-workbench/ysyxSoC/src/SoC.scala:88:19
   output        sdram_clk,	// home/lty/ysyx/ysyx-workbench/ysyxSoC/src/SoC.scala:89:19
                 sdram_cke,	// home/lty/ysyx/ysyx-workbench/ysyxSoC/src/SoC.scala:89:19
-                sdram_cs,	// home/lty/ysyx/ysyx-workbench/ysyxSoC/src/SoC.scala:89:19
-                sdram_ras,	// home/lty/ysyx/ysyx-workbench/ysyxSoC/src/SoC.scala:89:19
+  output [1:0]  sdram_cs,	// home/lty/ysyx/ysyx-workbench/ysyxSoC/src/SoC.scala:89:19
+  output        sdram_ras,	// home/lty/ysyx/ysyx-workbench/ysyxSoC/src/SoC.scala:89:19
                 sdram_cas,	// home/lty/ysyx/ysyx-workbench/ysyxSoC/src/SoC.scala:89:19
                 sdram_we,	// home/lty/ysyx/ysyx-workbench/ysyxSoC/src/SoC.scala:89:19
   output [12:0] sdram_a,	// home/lty/ysyx/ysyx-workbench/ysyxSoC/src/SoC.scala:89:19
@@ -4494,7 +4494,7 @@ module ysyxSoCFull(	// home/lty/ysyx/ysyx-workbench/ysyxSoC/src/SoC.scala:111:9
   wire        _asic_psram_ce_n;	// home/lty/ysyx/ysyx-workbench/ysyxSoC/src/SoC.scala:107:24
   wire        _asic_sdram_clk;	// home/lty/ysyx/ysyx-workbench/ysyxSoC/src/SoC.scala:107:24
   wire        _asic_sdram_cke;	// home/lty/ysyx/ysyx-workbench/ysyxSoC/src/SoC.scala:107:24
-  wire        _asic_sdram_cs;	// home/lty/ysyx/ysyx-workbench/ysyxSoC/src/SoC.scala:107:24
+  wire [1:0]  _asic_sdram_cs;	// home/lty/ysyx/ysyx-workbench/ysyxSoC/src/SoC.scala:107:24
   wire        _asic_sdram_ras;	// home/lty/ysyx/ysyx-workbench/ysyxSoC/src/SoC.scala:107:24
   wire        _asic_sdram_cas;	// home/lty/ysyx/ysyx-workbench/ysyxSoC/src/SoC.scala:107:24
   wire        _asic_sdram_we;	// home/lty/ysyx/ysyx-workbench/ysyxSoC/src/SoC.scala:107:24
@@ -4561,10 +4561,34 @@ module ysyxSoCFull(	// home/lty/ysyx/ysyx-workbench/ysyxSoC/src/SoC.scala:111:9
     .ce_n (_asic_psram_ce_n),	// home/lty/ysyx/ysyx-workbench/ysyxSoC/src/SoC.scala:107:24
     .dio  (_dio_wire)
   );	// home/lty/ysyx/ysyx-workbench/ysyxSoC/src/SoC.scala:143:23
+  sdram sdram0_h (	// home/lty/ysyx/ysyx-workbench/ysyxSoC/src/SoC.scala:145:23
+    .clk (_asic_sdram_clk),	// home/lty/ysyx/ysyx-workbench/ysyxSoC/src/SoC.scala:107:24
+    .cke (_asic_sdram_cke),	// home/lty/ysyx/ysyx-workbench/ysyxSoC/src/SoC.scala:107:24
+    .cs  (_asic_sdram_cs[0]),	// home/lty/ysyx/ysyx-workbench/ysyxSoC/src/SoC.scala:107:24
+    .ras (_asic_sdram_ras),	// home/lty/ysyx/ysyx-workbench/ysyxSoC/src/SoC.scala:107:24
+    .cas (_asic_sdram_cas),	// home/lty/ysyx/ysyx-workbench/ysyxSoC/src/SoC.scala:107:24
+    .we  (_asic_sdram_we),	// home/lty/ysyx/ysyx-workbench/ysyxSoC/src/SoC.scala:107:24
+    .a   (_asic_sdram_a),	// home/lty/ysyx/ysyx-workbench/ysyxSoC/src/SoC.scala:107:24
+    .ba  (_asic_sdram_ba),	// home/lty/ysyx/ysyx-workbench/ysyxSoC/src/SoC.scala:107:24
+    .dqm (_asic_sdram_dqm[3:2]),	// home/lty/ysyx/ysyx-workbench/ysyxSoC/src/SoC.scala:107:24
+    .dq  (_dq_wire[31:16])
+  );	// home/lty/ysyx/ysyx-workbench/ysyxSoC/src/SoC.scala:145:23
+  sdram sdram0_l (	// home/lty/ysyx/ysyx-workbench/ysyxSoC/src/SoC.scala:145:23
+    .clk (_asic_sdram_clk),	// home/lty/ysyx/ysyx-workbench/ysyxSoC/src/SoC.scala:107:24
+    .cke (_asic_sdram_cke),	// home/lty/ysyx/ysyx-workbench/ysyxSoC/src/SoC.scala:107:24
+    .cs  (_asic_sdram_cs[0]),	// home/lty/ysyx/ysyx-workbench/ysyxSoC/src/SoC.scala:107:24
+    .ras (_asic_sdram_ras),	// home/lty/ysyx/ysyx-workbench/ysyxSoC/src/SoC.scala:107:24
+    .cas (_asic_sdram_cas),	// home/lty/ysyx/ysyx-workbench/ysyxSoC/src/SoC.scala:107:24
+    .we  (_asic_sdram_we),	// home/lty/ysyx/ysyx-workbench/ysyxSoC/src/SoC.scala:107:24
+    .a   (_asic_sdram_a),	// home/lty/ysyx/ysyx-workbench/ysyxSoC/src/SoC.scala:107:24
+    .ba  (_asic_sdram_ba),	// home/lty/ysyx/ysyx-workbench/ysyxSoC/src/SoC.scala:107:24
+    .dqm (_asic_sdram_dqm[1:0]),	// home/lty/ysyx/ysyx-workbench/ysyxSoC/src/SoC.scala:107:24
+    .dq  (_dq_wire[15:0])
+  );	// home/lty/ysyx/ysyx-workbench/ysyxSoC/src/SoC.scala:145:23
   sdram sdram1_h (	// home/lty/ysyx/ysyx-workbench/ysyxSoC/src/SoC.scala:145:23
     .clk (_asic_sdram_clk),	// home/lty/ysyx/ysyx-workbench/ysyxSoC/src/SoC.scala:107:24
     .cke (_asic_sdram_cke),	// home/lty/ysyx/ysyx-workbench/ysyxSoC/src/SoC.scala:107:24
-    .cs  (_asic_sdram_cs),	// home/lty/ysyx/ysyx-workbench/ysyxSoC/src/SoC.scala:107:24
+    .cs  (_asic_sdram_cs[1]),	// home/lty/ysyx/ysyx-workbench/ysyxSoC/src/SoC.scala:107:24
     .ras (_asic_sdram_ras),	// home/lty/ysyx/ysyx-workbench/ysyxSoC/src/SoC.scala:107:24
     .cas (_asic_sdram_cas),	// home/lty/ysyx/ysyx-workbench/ysyxSoC/src/SoC.scala:107:24
     .we  (_asic_sdram_we),	// home/lty/ysyx/ysyx-workbench/ysyxSoC/src/SoC.scala:107:24
@@ -4576,7 +4600,7 @@ module ysyxSoCFull(	// home/lty/ysyx/ysyx-workbench/ysyxSoC/src/SoC.scala:111:9
   sdram sdram1_l (	// home/lty/ysyx/ysyx-workbench/ysyxSoC/src/SoC.scala:145:23
     .clk (_asic_sdram_clk),	// home/lty/ysyx/ysyx-workbench/ysyxSoC/src/SoC.scala:107:24
     .cke (_asic_sdram_cke),	// home/lty/ysyx/ysyx-workbench/ysyxSoC/src/SoC.scala:107:24
-    .cs  (_asic_sdram_cs),	// home/lty/ysyx/ysyx-workbench/ysyxSoC/src/SoC.scala:107:24
+    .cs  (_asic_sdram_cs[1]),	// home/lty/ysyx/ysyx-workbench/ysyxSoC/src/SoC.scala:107:24
     .ras (_asic_sdram_ras),	// home/lty/ysyx/ysyx-workbench/ysyxSoC/src/SoC.scala:107:24
     .cas (_asic_sdram_cas),	// home/lty/ysyx/ysyx-workbench/ysyxSoC/src/SoC.scala:107:24
     .we  (_asic_sdram_we),	// home/lty/ysyx/ysyx-workbench/ysyxSoC/src/SoC.scala:107:24
