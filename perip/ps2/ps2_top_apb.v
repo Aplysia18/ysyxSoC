@@ -28,11 +28,11 @@ module ps2_top_apb(
 
     assign in_prdata = in_psel & in_penable & ~in_pwrite & (in_paddr==32'h10011000) & ready ? {24'b0, data} : 32'b0; // read data
 
-    always @(*) begin
-        if (in_psel & in_penable & ~in_pwrite & (in_paddr==32'h10011000)) begin
-            if(in_prdata!=0) $display("APB read data: %h", in_prdata);
-        end
-    end
+    // always @(*) begin
+    //     if (in_psel & in_penable & ~in_pwrite & (in_paddr==32'h10011000)) begin
+    //         if(in_prdata!=0) $display("APB read data: %h", in_prdata);
+    //     end
+    // end
 
 endmodule
 
