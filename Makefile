@@ -9,7 +9,7 @@ FIRTOOL_PATCH_DIR = $(shell pwd)/patch/firtool
 $(V_FILE_FINAL): $(SCALA_FILES)
 # Replace firtool with a newer version
 # TODO: This can be removed after chisel publishes a new version
-	@./patch/update-firtool.sh $(FIRTOOL_VERSION) $(FIRTOOL_PATCH_DIR)
+#@./patch/update-firtool.sh $(FIRTOOL_VERSION) $(FIRTOOL_PATCH_DIR)
 	CHISEL_FIRTOOL_PATH=$(FIRTOOL_PATCH_DIR)/firtool-$(FIRTOOL_VERSION)/bin \
 	mill -i ysyxsoc.runMain ysyx.Elaborate --target-dir $(@D)
 	mv $(V_FILE_GEN) $@
