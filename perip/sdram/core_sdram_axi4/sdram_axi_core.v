@@ -297,22 +297,22 @@ begin
         next_state_r = STATE_IDLE;
 
         // Another pending read request (with no refresh pending)
-        if (!refresh_q && ram_req_w && ram_rd_w)
-        begin
-            case (addr_sdram_w)
-                // SDRAM word extension selection
-                1'b0: begin
-                    // Open row hit
-                    if (row_open_q0[addr_bank_w] && addr_row_w == active_row_q0[addr_bank_w])
-                        next_state_r = STATE_READ;
-                end
-                1'b1: begin
-                    // Open row hit
-                    if (row_open_q1[addr_bank_w] && addr_row_w == active_row_q1[addr_bank_w])
-                        next_state_r = STATE_READ;
-                end
-            endcase
-        end
+        // if (!refresh_q && ram_req_w && ram_rd_w)
+        // begin
+        //     case (addr_sdram_w)
+        //         // SDRAM word extension selection
+        //         1'b0: begin
+        //             // Open row hit
+        //             if (row_open_q0[addr_bank_w] && addr_row_w == active_row_q0[addr_bank_w])
+        //                 next_state_r = STATE_READ;
+        //         end
+        //         1'b1: begin
+        //             // Open row hit
+        //             if (row_open_q1[addr_bank_w] && addr_row_w == active_row_q1[addr_bank_w])
+        //                 next_state_r = STATE_READ;
+        //         end
+        //     endcase
+        // end
     end
     //-----------------------------------------
     // STATE_WRITE0
@@ -322,22 +322,22 @@ begin
         next_state_r = STATE_IDLE;
 
         // Another pending write request (with no refresh pending)
-        if (!refresh_q && ram_req_w && (ram_wr_w != 4'b0))
-        begin
-            case (addr_sdram_w)
-                // SDRAM word extension selection
-                1'b0: begin
-                    // Open row hit
-                    if (row_open_q0[addr_bank_w] && addr_row_w == active_row_q0[addr_bank_w])
-                        next_state_r = STATE_WRITE0;
-                end
-                1'b1: begin
-                    // Open row hit
-                    if (row_open_q1[addr_bank_w] && addr_row_w == active_row_q1[addr_bank_w])
-                        next_state_r = STATE_WRITE0;
-                end
-            endcase
-        end
+        // if (!refresh_q && ram_req_w && (ram_wr_w != 4'b0))
+        // begin
+        //     case (addr_sdram_w)
+        //         // SDRAM word extension selection
+        //         1'b0: begin
+        //             // Open row hit
+        //             if (row_open_q0[addr_bank_w] && addr_row_w == active_row_q0[addr_bank_w])
+        //                 next_state_r = STATE_WRITE0;
+        //         end
+        //         1'b1: begin
+        //             // Open row hit
+        //             if (row_open_q1[addr_bank_w] && addr_row_w == active_row_q1[addr_bank_w])
+        //                 next_state_r = STATE_WRITE0;
+        //         end
+        //     endcase
+        // end
     end
     //-----------------------------------------
     // STATE_PRECHARGE
